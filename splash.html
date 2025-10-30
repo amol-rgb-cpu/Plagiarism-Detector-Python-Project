@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Detector - Welcome</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Font Awesome for the search icon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Define color variables based on the theme */
+        :root {
+            --primary-blue: #1E40AF; /* Your Royal Blue */
+            --light-blue: #3b82f6;   /* Tailwind Blue 500 */
+        }
+
+        /* Dynamic Blue Background matching the image */
+        .splash-bg {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Use a gradient similar to the image for depth */
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--light-blue) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        /* Styling for the Plagiarism Detector text */
+        .app-title {
+            font-size: 2.5rem; /* Large font size */
+            font-weight: 700;  /* Bold */
+            letter-spacing: 0.025em;
+        }
+
+        /* Button styling for clear white look */
+        .btn-ghost {
+            background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-ghost:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="splash-bg">
+    <div class="p-6">
+        <!-- Icon -->
+        <div class="mb-6">
+            <i class="fas fa-search text-6xl text-white opacity-90"></i>
+        </div>
+
+        <!-- Title and Subtitle -->
+        <h1 class="app-title mb-2">
+            Plagiarism Detector
+        </h1>
+        <p class="text-lg opacity-80 mb-12 max-w-lg mx-auto">
+            Detect plagiarism by comparing texts using advanced similarity algorithms
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            
+            <!-- Sign In Button -->
+            <a href="{{ url_for('login') }}" class="btn-ghost px-8 py-3 rounded-full text-white font-semibold flex items-center justify-center">
+                <i class="fas fa-arrow-right mr-3"></i> 
+                Sign In
+            </a>
+
+            <!-- Create Account Button -->
+            <a href="{{ url_for('register') }}" class="btn-ghost px-8 py-3 rounded-full text-white font-semibold flex items-center justify-center">
+                <i class="fas fa-user-plus mr-3"></i> 
+                Create Account
+            </a>
+        </div>
+    </div>
+</body>
+</html>

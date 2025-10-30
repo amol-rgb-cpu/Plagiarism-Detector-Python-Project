@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Plagiarism Detector</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Font Awesome for the eye icon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for a dynamic blue background and theme */
+        :root {
+            --primary-blue: #1E40AF; /* Royal Blue */
+            --light-blue: #3b82f6;   /* Tailwind Blue 500 */
+        }    /* Dynamic Blue to White Background - Right to Left Gradient */
+    .dynamic-bg {
+        min-height: 100vh;
+        background: linear-gradient(270deg, var(--light-blue) 0%, rgba(255, 255, 255, 1) 100%);
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Multi-layered Animated Blobs */
+    .dynamic-bg::before, .dynamic-bg::after {
+        content: '';
+        position: absolute;
+        background: rgba(59, 130, 246, 0.2);
+        border-radius: 50%;
+        z-index: 0;
+        filter: blur(50px);
+    }
+    
+    .dynamic-bg::before {
+        width: 300px;
+        height: 300px;
+        top: 10%;
+        right: 5%;
+        animation: move-blob 12s infinite ease-in-out;
+    }
+
+    .dynamic-bg::after {
+        width: 400px;
+        height: 400px;
+        bottom: 15%;
+        left: 10%;
+        animation: move-blob 12s infinite ease-in-out;
+        animation-delay: 2s;
+    }
+
+    /* Third Blob */
+    .blob-extra {
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        background: rgba(147, 197, 253, 0.15);
+        border-radius: 50%;
+        top: 40%;
+        right: 30%;
+        filter: blur(50px);
+        animation: move-blob 12s infinite ease-in-out;
+        animation-delay: 4s;
+    }
+
+    @keyframes move-blob {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(50px, -50px) scale(1.1); }
+        66% { transform: translate(-30px, 30px) scale(0.9); }
+    }
+
+    /* Floating Particles */
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .particle-1 {
+        width: 12px;
+        height: 12px;
+        background: rgba(59, 130, 246, 0.5);
+        top: 20%;
+        right: 15%;
+        animation: float 8s ease-in-out infinite;
+    }
+
+    .particle-2 {
+        width: 8px;
+        height: 8px;
+        background: rgba(96, 165, 250, 0.6);
+        top: 60%;
+        right: 25%;
+        animation: float-slow 10s ease-in-out infinite;
+        animation-delay: 1s;
+    }
+
+    .particle-3 {
+        width: 16px;
+        height: 16px;
+        background: rgba(59, 130, 246, 0.4);
+        top: 40%;
+        left: 20%;
+        animation: float-reverse 7s ease-in-out infinite;
+    }
+
+    .particle-4 {
+        width: 8px;
+        height: 8px;
+        background: rgba(96, 165, 250, 0.5);
+        bottom: 30%;
+        left: 15%;
+        animation: float 8s ease-in-out infinite;
+        animation-delay: 2s;
+    }
+
+    .particle-5 {
+        width: 12px;
+        height: 12px;
+        background: rgba(59, 130, 246, 0.6);
+        top: 70%;
+        right: 40%;
+        animation: float-slow 10s ease-in-out infinite;
+        animation-delay: 3s;
+    }
+
+    .particle-6 {
+        width: 8px;
+        height: 8px;
+        background: rgba(96, 165, 250, 0.5);
+        top: 15%;
+        left: 35%;
+        animation: float-reverse 7s ease-in-out infinite;
+        animation-delay: 1.5s;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px) translateX(0px); }
+        25% { transform: translateY(-20px) translateX(10px); }
+        50% { transform: translateY(-10px) translateX(-10px); }
+        75% { transform: translateY(-30px) translateX(5px); }
+    }
+
+    @keyframes float-slow {
+        0%, 100% { transform: translateY(0px) translateX(0px); }
+        50% { transform: translateY(-40px) translateX(-15px); }
+    }
+
+    @keyframes float-reverse {
+        0%, 100% { transform: translateY(0px) translateX(0px); }
+        25% { transform: translateY(20px) translateX(-10px); }
+        50% { transform: translateY(10px) translateX(10px); }
+        75% { transform: translateY(30px) translateX(-5px); }
+    }
+
+    /* Rotating Geometric Shapes */
+    .geometric-shape {
+        position: absolute;
+        border: 2px solid rgba(59, 130, 246, 0.3);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .shape-1 {
+        width: 80px;
+        height: 80px;
+        top: 10%;
+        left: 10%;
+        transform: rotate(45deg);
+        animation: rotate-slow 20s linear infinite;
+    }
+
+    .shape-2 {
+        width: 64px;
+        height: 64px;
+        bottom: 20%;
+        right: 15%;
+        border-color: rgba(96, 165, 250, 0.25);
+        animation: rotate-reverse 15s linear infinite;
+    }
+
+    .shape-3 {
+        width: 48px;
+        height: 48px;
+        top: 50%;
+        right: 5%;
+        background: rgba(59, 130, 246, 0.1);
+        transform: rotate(45deg);
+        animation: rotate-slow 20s linear infinite;
+        animation-delay: 1s;
+    }
+
+    .shape-4 {
+        width: 56px;
+        height: 56px;
+        bottom: 40%;
+        left: 25%;
+        border: 1px solid rgba(96, 165, 250, 0.2);
+        transform: rotate(12deg);
+        animation: rotate-reverse 15s linear infinite;
+        animation-delay: 2s;
+    }
+
+    @keyframes rotate-slow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    @keyframes rotate-reverse {
+        from { transform: rotate(360deg); }
+        to { transform: rotate(0deg); }
+    }
+
+    /* Glassmorphic Card */
+    .auth-card {
+        position: relative;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        animation: scale-in 0.3s ease-out;
+    }
+
+    @keyframes scale-in {
+        from { transform: scale(0.95); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Hover Effects */
+    .auth-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    /* Icon Glow */
+    .icon-glow {
+        filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));
+    }
+
+    /* Gradient Text */
+    .gradient-text {
+        background: linear-gradient(90deg, #1E40AF, #3b82f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Button Hover Effect */
+    .btn-hover-scale:hover {
+        transform: scale(1.02);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    /* FIX: HIDE NATIVE BROWSER PASSWORD REVEAL BUTTON */
+    input[type=password]::-ms-reveal,
+    input[type=password]::-webkit-reveal {
+        display: none !important;
+    }
+</style>
+</head>
+<body class="dynamic-bg flex items-center justify-center">
+
+    <!-- Third Blob -->
+    <div class="blob-extra"></div>
+
+    <!-- Floating Particles -->
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+    <div class="particle particle-5"></div>
+    <div class="particle particle-6"></div>
+
+    <!-- Geometric Shapes -->
+    <div class="geometric-shape shape-1"></div>
+    <div class="geometric-shape shape-2"></div>
+    <div class="geometric-shape shape-3"></div>
+    <div class="geometric-shape shape-4"></div>
+
+    <div class="auth-card w-full max-w-md p-6 sm:p-8 space-y-8 rounded-xl shadow-2xl">
+        <div class="text-center">
+            <i class="fas fa-user-plus text-5xl text-blue-700 mb-4 icon-glow"></i>
+            <h2 class="text-4xl font-extrabold gradient-text">
+                Create Account
+            </h2>
+            <p class="mt-2 text-sm text-gray-600">
+                Join Plagiarism Detector today
+            </p>
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="space-y-2">
+            {% for category, message in messages %}
+                <div class="px-4 py-3 rounded-lg text-sm {% if category == 'error' %}bg-red-100 text-red-700{% elif category == 'success' %}bg-green-100 text-green-700{% else %}bg-blue-100 text-blue-700{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <form class="mt-8 space-y-6" action="{{ url_for('register') }}" method="POST">
+            <div class="rounded-md shadow-sm space-y-4">
+                <div>
+                    <label for="username" class="sr-only">Username</label>
+                    <input id="username" name="username" type="text" autocomplete="username" required
+                        class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all duration-200 focus:ring-2"
+                        placeholder="Choose a username">
+                </div>
+
+                <div class="relative">
+                    <label for="password" class="sr-only">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="new-password" required
+                        class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm pr-10 transition-all duration-200 focus:ring-2"
+                        placeholder="Create a password">
+                    
+                    <!-- Password Visibility Toggle (Now hidden by default and correctly positioned) -->
+                    <span id="togglePassword" class="absolute inset-y-0 right-0 pr-3 items-center text-gray-400 cursor-pointer hover:text-blue-700 transition-colors duration-200 z-20 hidden">
+                        <i class="fas fa-eye-slash"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit"
+                    class="btn-hover-scale group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out shadow-md hover:shadow-lg">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <i class="fas fa-user-plus h-5 w-5 text-blue-400 group-hover:text-white transition duration-150"></i>
+                    </span>
+                    Register
+                </button>
+            </div>
+        </form>
+
+        <!-- Link to Login -->
+        <div class="text-center">
+            <p class="text-sm text-gray-600">
+                Already have an account? 
+                <a href="{{ url_for('login') }}" class="font-bold text-blue-700 hover:text-blue-500 transition duration-150">Sign in here</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const eyeIcon = togglePassword.querySelector('i');
+
+        // New event listeners to control visibility
+        passwordInput.addEventListener('input', function() {
+            if (passwordInput.value.length > 0) {
+                // Use 'flex' to show the icon (since it was hidden by 'hidden')
+                togglePassword.classList.remove('hidden');
+                togglePassword.classList.add('flex');
+            } else {
+                togglePassword.classList.add('hidden');
+                togglePassword.classList.remove('flex');
+            }
+        });
+        
+        passwordInput.addEventListener('blur', function() {
+            // Hide the icon if the field is empty when focus is lost
+            if (passwordInput.value.length === 0) {
+                togglePassword.classList.add('hidden');
+                togglePassword.classList.remove('flex');
+            }
+        });
+
+        // Toggle functionality (unchanged)
+        togglePassword.addEventListener('click', function () {
+            // Toggle the type attribute
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle the eye icon class
+            if (type === 'password') {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        });
+    </script>
+</body>
+</html>

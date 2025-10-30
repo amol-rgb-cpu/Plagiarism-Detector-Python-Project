@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="text-center py-5 bg-primary text-white">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-3">
+                    <i class="fas fa-search me-3"></i>Plagiarism Detector
+                </h1>
+                <p class="lead">Detect plagiarism by comparing two texts using advanced similarity algorithms</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container my-5">
+            <!-- Navigation Tabs -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <ul class="nav nav-tabs nav-justified" id="mainTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="text-tab" data-bs-toggle="tab" data-bs-target="#text-pane" type="button" role="tab">
+                                <i class="fas fa-keyboard me-2"></i>Text Input
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="file-tab" data-bs-toggle="tab" data-bs-target="#file-pane" type="button" role="tab">
+                                <i class="fas fa-upload me-2"></i>File Upload
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="grammar-tab" data-bs-toggle="tab" data-bs-target="#grammar-pane" type="button" role="tab">
+                                <i class="fas fa-spell-check me-2"></i>Grammar & Writing
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="reports-tab" data-bs-toggle="tab" data-bs-target="#reports-pane" type="button" role="tab">
+                                <i class="fas fa-chart-line me-2"></i>Reports
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="mainTabContent">
+                <!-- Text Input Tab -->
+                <div class="tab-pane fade show active" id="text-pane" role="tabpanel">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="card shadow-lg border-0">
+                                <div class="card-header bg-white border-0 py-4">
+                                    <h3 class="text-center mb-0">
+                                        <i class="fas fa-file-text me-2 text-primary"></i>
+                                        Text Comparison
+                                    </h3>
+                                </div>
+                                <div class="card-body p-4">
+                                    <form id="plagiarismForm">
+                                        <div class="row">
+                                            <!-- First Text -->
+                                            <div class="col-md-6 mb-4">
+                                                <label for="text1" class="form-label fw-bold">
+                                                    <i class="fas fa-file-alt me-2"></i>Original Text
+                                                </label>
+                                                <textarea 
+                                                    class="form-control" 
+                                                    id="text1" 
+                                                    name="text1" 
+                                                    rows="12" 
+                                                    placeholder="Enter the original text here..."
+                                                    required
+                                                ></textarea>
+                                                <div class="form-text">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Enter the first text to compare
+                                                </div>
+                                            </div>
+
+                                            <!-- Second Text -->
+                                            <div class="col-md-6 mb-4">
+                                                <label for="text2" class="form-label fw-bold">
+                                                    <i class="fas fa-file-alt me-2"></i>Suspected Text
+                                                </label>
+                                                <textarea 
+                                                    class="form-control" 
+                                                    id="text2" 
+                                                    name="text2" 
+                                                    rows="12" 
+                                                    placeholder="Enter the text to check for plagiarism..."
+                                                    required
+                                                ></textarea>
+                                                <div class="form-text">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Enter the second text to compare
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3" id="checkBtn">
+                                                <i class="fas fa-search me-2"></i>
+                                                Check for Plagiarism
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Upload Tab -->
+                <div class="tab-pane fade" id="file-pane" role="tabpanel">
+                    <div class="row">
+                        <div class="col-lg-10 mx-auto">
+                            <!-- Mode Selection -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <h5 class="mb-3">Choose Analysis Mode</h5>
+                                            <div class="btn-group" role="group">
+                                                <input type="radio" class="btn-check" name="analysisMode" id="singleMode" value="single" checked>
+                                                <label class="btn btn-outline-primary" for="singleMode">
+                                                    <i class="fas fa-file-upload me-2"></i>Single File vs Database
+                                                </label>
+                                                
+                                                <input type="radio" class="btn-check" name="analysisMode" id="multipleMode" value="multiple">
+                                                <label class="btn btn-outline-success" for="multipleMode">
+                                                    <i class="fas fa-files me-2"></i>Multiple Files Comparison
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Single File Mode -->
+                            <div id="singleFileMode" class="analysis-mode">
+                                <div class="card shadow-lg border-0">
+                                    <div class="card-header bg-white border-0 py-4">
+                                        <h3 class="text-center mb-0">
+                                            <i class="fas fa-upload me-2 text-primary"></i>
+                                            Single File Plagiarism Detection
+                                        </h3>
+                                        <p class="text-center text-muted mt-2 mb-0">
+                                            Upload a document to check for plagiarism against all previously uploaded files
+                                        </p>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <form id="fileUploadForm" enctype="multipart/form-data">
+                                            <!-- Single File Upload -->
+                                            <div class="mb-4">
+                                                <label for="file" class="form-label fw-bold">
+                                                    <i class="fas fa-file me-2"></i>Document to Analyze
+                                                </label>
+                                                <input 
+                                                    type="file" 
+                                                    class="form-control" 
+                                                    id="file" 
+                                                    name="file" 
+                                                    accept=".txt,.pdf,.docx,.doc,.xlsx,.xls,.png,.jpg,.jpeg,.gif,.bmp,.tiff"
+                                                    required
+                                                >
+                                                <div class="form-text">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Supported: TXT, PDF, DOCX, XLSX, Images (PNG, JPG, etc.)
+                                                </div>
+                                            </div>
+
+                                            <!-- Information Box -->
+                                            <div class="alert alert-info">
+                                                <h6 class="alert-heading">
+                                                    <i class="fas fa-lightbulb me-2"></i>How it works:
+                                                </h6>
+                                                <ul class="mb-0">
+                                                    <li>Your document will be compared against ALL previously uploaded files</li>
+                                                    <li>The document will be saved to the database for future comparisons</li>
+                                                    <li>You'll receive a comprehensive plagiarism report</li>
+                                                    <li>All processing is done locally for privacy</li>
+                                                </ul>
+                                            </div>
+
+                                            <!-- Submit Button -->
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-success btn-lg px-5 py-3" id="uploadBtn">
+                                                    <i class="fas fa-search me-2"></i>
+                                                    Analyze for Plagiarism
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Multiple Files Mode -->
+                            <div id="multipleFilesMode" class="analysis-mode" style="display: none;">
+                                <div class="card shadow-lg border-0">
+                                    <div class="card-header bg-white border-0 py-4">
+                                        <h3 class="text-center mb-0">
+                                            <i class="fas fa-files me-2 text-success"></i>
+                                            Multiple Files Comparison
+                                        </h3>
+                                        <p class="text-center text-muted mt-2 mb-0">
+                                            Upload multiple files to compare them against each other
+                                        </p>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <form id="multipleFilesForm" enctype="multipart/form-data">
+                                            <!-- Multiple Files Upload -->
+                                            <div class="mb-4">
+                                                <label for="files" class="form-label fw-bold">
+                                                    <i class="fas fa-files me-2"></i>Documents to Compare
+                                                </label>
+                                                <input 
+                                                    type="file" 
+                                                    class="form-control" 
+                                                    id="files" 
+                                                    name="files" 
+                                                    accept=".txt,.pdf,.docx,.doc,.xlsx,.xls,.png,.jpg,.jpeg,.gif,.bmp,.tiff"
+                                                    multiple
+                                                    required
+                                                >
+                                                <div class="form-text">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Select 2-10 files. Supported: TXT, PDF, DOCX, XLSX, Images (PNG, JPG, etc.)
+                                                </div>
+                                            </div>
+
+                                            <!-- Information Box -->
+                                            <div class="alert alert-success">
+                                                <h6 class="alert-heading">
+                                                    <i class="fas fa-lightbulb me-2"></i>How it works:
+                                                </h6>
+                                                <ul class="mb-0">
+                                                    <li>All files will be compared against each other</li>
+                                                    <li>You'll get a comprehensive comparison matrix</li>
+                                                    <li>All files will be saved to the database for future comparisons</li>
+                                                    <li>Get detailed similarity analysis between all file pairs</li>
+                                                </ul>
+                                            </div>
+
+                                            <!-- Submit Button -->
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary btn-lg px-5 py-3" id="uploadMultipleBtn">
+                                                    <i class="fas fa-balance-scale me-2"></i>
+                                                    Compare All Files
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grammar & Writing Tab -->
+                <div class="tab-pane fade" id="grammar-pane" role="tabpanel">
+                    <div class="row">
+                        <div class="col-lg-10 mx-auto">
+                            <!-- Mode Selection -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <h5 class="mb-3">Choose Analysis Type</h5>
+                                            <div class="btn-group" role="group">
+                                                <input type="radio" class="btn-check" name="grammarMode" id="grammarCheckMode" value="grammar" checked>
+                                                <label class="btn btn-outline-primary" for="grammarCheckMode">
+                                                    <i class="fas fa-spell-check me-2"></i>Grammar Check
+                                                </label>
+                                                
+                                                <input type="radio" class="btn-check" name="grammarMode" id="plagiarismRemovalMode" value="removal">
+                                                <label class="btn btn-outline-warning" for="plagiarismRemovalMode">
+                                                    <i class="fas fa-eraser me-2"></i>Plagiarism Removal
+                                                </label>
+                                                
+                                                <input type="radio" class="btn-check" name="grammarMode" id="comprehensiveMode" value="comprehensive">
+                                                <label class="btn btn-outline-success" for="comprehensiveMode">
+                                                    <i class="fas fa-search-plus me-2"></i>Comprehensive Analysis
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Grammar Check Mode -->
+                            <div id="grammarCheckModeContent" class="analysis-mode">
+                                <div class="card shadow-lg border-0">
+                                    <div class="card-header bg-white border-0 py-4">
+                                        <h3 class="text-center mb-0">
+                                            <i class="fas fa-spell-check me-2 text-primary"></i>
+                                            Grammar & Style Check
+                                        </h3>
+                                        <p class="text-center text-muted mt-2 mb-0">
+                                            Check your text for grammar errors, style issues, and readability
+                                        </p>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <form id="grammarCheckForm">
+                                            <div class="mb-4">
+                                                <label for="grammarText" class="form-label fw-bold">
+                                                    <i class="fas fa-file-text me-2"></i>Text to Check
+                                                </label>
+                                                <textarea 
+                                                    class="form-control" 
+                                                    id="grammarText" 
+                                                    name="grammarText" 
+                                                    rows="12" 
+                                                    placeholder="Enter your text here for grammar and style checking..."
+                                                    required
+                                                ></textarea>
+                                                <div class="form-text">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Minimum 10 characters required
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary btn-lg px-5 py-3" id="grammarCheckBtn">
+                                                    <i class="fas fa-search me-2"></i>
+                                                    Check Grammar & Style
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Plagiarism Removal Mode -->
+                            <div id="plagiarismRemovalModeContent" class="analysis-mode" style="display: none;">
+                                <div class="card shadow-lg border-0">
+                                    <div class="card-header bg-white border-0 py-4">
+                                        <h3 class="text-center mb-0">
+                                            <i class="fas fa-eraser me-2 text-warning"></i>
+                                            Plagiarism Removal Assistant
+                                        </h3>
+                                        <p class="text-center text-muted mt-2 mb-0">
+                                            Get suggestions to remove plagiarism and make your content original
+                                        </p>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <form id="plagiarismRemovalForm">
+                                            <div class="mb-4">
+                                                <label for="removalText" class="form-label fw-bold">
+                                                    <i class="fas fa-file-text me-2"></i>Text to Improve
+                                                </label>
+                                                <textarea 
+                                                    class="form-control" 
+                                                    id="removalText" 
+                                                    name="removalText" 
+                                                    rows="12" 
+                                                    placeholder="Enter your text here to get plagiarism removal suggestions..."
+                                                    required
+                                                ></textarea>
+                                                <div class="form-text">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Get suggestions to rewrite similar content
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-warning btn-lg px-5 py-3" id="plagiarismRemovalBtn">
+                                                    <i class="fas fa-eraser me-2"></i>
+                                                    Get Removal Suggestions
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comprehensive Analysis Mode -->
+                            <div id="comprehensiveModeContent" class="analysis-mode" style="display: none;">
+                                <div class="card shadow-lg border-0">
+                                    <div class="card-header bg-white border-0 py-4">
+                                        <h3 class="text-center mb-0">
+                                            <i class="fas fa-search-plus me-2 text-success"></i>
+                                            Comprehensive Writing Analysis
+                                        </h3>
+                                        <p class="text-center text-muted mt-2 mb-0">
+                                            Complete analysis: grammar, plagiarism, readability, and improvement suggestions
+                                        </p>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <form id="comprehensiveAnalysisForm">
+                                            <div class="mb-4">
+                                                <label for="comprehensiveText" class="form-label fw-bold">
+                                                    <i class="fas fa-file-text me-2"></i>Text to Analyze
+                                                </label>
+                                                <textarea 
+                                                    class="form-control" 
+                                                    id="comprehensiveText" 
+                                                    name="comprehensiveText" 
+                                                    rows="12" 
+                                                    placeholder="Enter your text here for comprehensive analysis..."
+                                                    required
+                                                ></textarea>
+                                                <div class="form-text">
+                                                    <i class="fas fa-info-circle me-1"></i>
+                                                    Get complete writing analysis and improvement suggestions
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-success btn-lg px-5 py-3" id="comprehensiveAnalysisBtn">
+                                                    <i class="fas fa-search-plus me-2"></i>
+                                                    Analyze Everything
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports Tab -->
+                <div class="tab-pane fade" id="reports-pane" role="tabpanel">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-lg border-0">
+                                <div class="card-header bg-white border-0 py-4">
+                                    <h3 class="text-center mb-0">
+                                        <i class="fas fa-chart-line me-2 text-primary"></i>
+                                        Plagiarism Reports
+                                    </h3>
+                                </div>
+                                <div class="card-body p-4">
+                                    <div id="reportsList">
+                                        <div class="text-center">
+                                            <i class="fas fa-spinner fa-spin fa-2x text-muted mb-3"></i>
+                                            <p class="text-muted">Loading reports...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="row mt-5" id="resultsSection" style="display: none;">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-header bg-white border-0 py-4">
+                            <h3 class="text-center mb-0">
+                                <i class="fas fa-chart-bar me-2 text-primary"></i>
+                                Analysis Results
+                            </h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- Main Result -->
+                            <div class="text-center mb-4">
+                                <div class="result-circle mx-auto mb-3" id="resultCircle">
+                                    <div class="result-percentage" id="resultPercentage">0%</div>
+                                </div>
+                                <h4 class="mb-2" id="resultStatus">Ready to Check</h4>
+                                <p class="text-muted" id="resultDetails">Enter texts above to begin analysis</p>
+                            </div>
+
+                            <!-- Detailed Results -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="card bg-light border-0">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title text-muted">Cosine Similarity</h6>
+                                            <h4 class="text-primary" id="cosineSimilarity">0%</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="card bg-light border-0">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title text-muted">Sequence Similarity</h6>
+                                            <h4 class="text-info" id="sequenceSimilarity">0%</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Comprehensive Analysis -->
+                            <div class="row mt-4" id="analysisSection" style="display: none;">
+                                <div class="col-12">
+                                    <h5 class="mb-3">
+                                        <i class="fas fa-chart-bar me-2"></i>Detailed Analysis
+                                    </h5>
+                                    
+                                    <!-- Document Statistics -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-4">
+                                            <div class="card border-0 bg-light">
+                                                <div class="card-body text-center">
+                                                    <h6 class="card-title">
+                                                        <i class="fas fa-file-alt me-2"></i>Document Statistics
+                                                    </h6>
+                                                    <p class="mb-1"><strong>Words:</strong> <span id="wordCount">0</span></p>
+                                                    <p class="mb-0"><strong>Characters:</strong> <span id="charCount">0</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card border-0 bg-light">
+                                                <div class="card-body text-center">
+                                                    <h6 class="card-title">
+                                                        <i class="fas fa-database me-2"></i>Database Comparison
+                                                    </h6>
+                                                    <p class="mb-1"><strong>Documents Compared:</strong> <span id="totalDocs">0</span></p>
+                                                    <p class="mb-0"><strong>Matches Found:</strong> <span id="matchCount">0</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card border-0 bg-light">
+                                                <div class="card-body text-center">
+                                                    <h6 class="card-title">
+                                                        <i class="fas fa-shield-alt me-2"></i>Risk Assessment
+                                                    </h6>
+                                                    <p class="mb-1"><strong>Risk Level:</strong> <span id="riskLevel">LOW</span></p>
+                                                    <p class="mb-0"><strong>Status:</strong> <span id="riskStatus">Safe</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Similarity Matches -->
+                                    <div class="row mb-4" id="matchesSection" style="display: none;">
+                                        <div class="col-12">
+                                            <div class="card border-0">
+                                                <div class="card-header bg-warning text-dark">
+                                                    <h6 class="mb-0">
+                                                        <i class="fas fa-exclamation-triangle me-2"></i>Similarity Matches Found
+                                                    </h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div id="similarityMatches">
+                                                        <p class="text-muted">No significant matches found</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Recommendations -->
+                                    <div class="card border-0">
+                                        <div class="card-header bg-info text-white">
+                                            <h6 class="mb-0">
+                                                <i class="fas fa-lightbulb me-2"></i>Recommendations
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul id="recommendations" class="mb-0">
+                                                <li>No recommendations available</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="text-center mt-4">
+                                <button class="btn btn-outline-primary me-2" onclick="clearResults()">
+                                    <i class="fas fa-redo me-2"></i>Check Another
+                                </button>
+                                <button class="btn btn-outline-secondary me-2" onclick="exportResults()">
+                                    <i class="fas fa-download me-2"></i>Export Results
+                                </button>
+                                <button class="btn btn-outline-success" onclick="viewDetailedReport()" id="viewReportBtn" style="display: none;">
+                                    <i class="fas fa-chart-line me-2"></i>View Full Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h3 class="text-center mb-5">How It Works</h3>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-brain fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title">Advanced Algorithms</h5>
+                            <p class="card-text">Uses cosine similarity and sequence matching to detect plagiarism with high accuracy.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-shield-alt fa-3x text-success"></i>
+                            </div>
+                            <h5 class="card-title">Privacy First</h5>
+                            <p class="card-text">Your texts are processed locally and not stored anywhere. Complete privacy guaranteed.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-bolt fa-3x text-warning"></i>
+                            </div>
+                            <h5 class="card-title">Fast & Accurate</h5>
+                            <p class="card-text">Get instant results with detailed analysis and similarity breakdowns.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-dark text-white py-4 mt-5">
+            <div class="container text-center">
+                <p class="mb-0">&copy; 2024 Plagiarism Detector. Built with Flask and Python.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center py-4">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h5>Analyzing Texts...</h5>
+                    <p class="text-muted">Please wait while we process your texts</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+<!-- Logout Button -->
+<div class="text-end position-absolute top-0 end-0 p-3">
+    <form action="{{ url_for('logout') }}" method="post">
+        <button type="submit" class="btn btn-outline-light btn-sm">
+            <i class="fas fa-sign-out-alt me-2"></i>Logout
+        </button>
+    </form>
+</div>
